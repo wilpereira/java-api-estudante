@@ -3,6 +3,8 @@ package com.example.demo.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -33,8 +35,8 @@ public class EstudanteController {
 	}
 	
 	@GetMapping
-	public List<Estudante> buscarTodosEstudante() {
-		return estudanteService.buscarTodosEstudante();
+	public Page<Estudante> buscarTodosEstudante(@RequestParam(defaultValue = "0") Integer pagina, @RequestParam(defaultValue = "5") Integer itensPorPagina) {
+		return estudanteService.buscarTodosEstudante(PageRequest.of(pagina, itensPorPagina));
 	}
 	
 	@PostMapping
@@ -44,7 +46,7 @@ public class EstudanteController {
 	
 	@PutMapping("/{id}")
 	public ResponseEntity<Estudante> atualizarEstudante(@PathVariable Long id, @RequestBody Estudante estudante) {
-		return estudanteService.atualizarEstudante(estudante);
+		return estudanteService.atualizarEstudante(id, estudante);
 	}
 	
 	@DeleteMapping("/{id}")
